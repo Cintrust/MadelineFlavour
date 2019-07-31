@@ -67,36 +67,16 @@
             return;
             
         }
-        
-        public function wow()
-        {
-            return yield 'wiw';
-//                            yield $this->messages->sendMessage(['peer' => '@de_senior', 'message' => 'whi' ]);
-        
-        }
+       
     }
     
     
-    $param=__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Logs".DIRECTORY_SEPARATOR."MadelineProto ".date("l jS \of F Y h").".log";
     
-        if(!file_exists($param)){
-            file_put_contents($param,"created at : ".date("l jS \of F Y h:i:s A \r\n"));
-        }
     $settings = ['logger' => [
         'logger_level' => 5,
         'logger' => 2,
-        'logger_param'=>$param
     ]];
-    $settings['app_info'] = $user = [
-        //bakpo account
-        'api_id' => "604114",
-        'api_hash' => '4d9c8e21e8ccaa274d2c3b03370414ee'
-    ];
-//    $bot=
-//        [
-//            'api_id'=>"241452",
-//            'api_hash'=>"2c5618ae0f235b96e0b2ecabd3fe3a7d"
-//        ] ;
+    
     $time = microtime(true);
     echo $time;
     $MadelineProto = new API('user.madeline', $settings);
