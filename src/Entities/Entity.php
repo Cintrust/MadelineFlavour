@@ -16,10 +16,7 @@
     use Closure;
     use danog\MadelineProto\API;
     use Exception;
-
-//use Exception;
-//use Longman\TelegramBot\Entities\InlineQuery\InlineEntity;
-//use Longman\TelegramBot\TelegramLog;
+    
     
     /**
      * Class Entity
@@ -350,7 +347,64 @@
             return $obj;
         }
         
-       
+        public function notifyNow($api = null)
+        {
+            $returned = true;
+            $init = function () use (&$returned, $api) {
+                $returned = yield $this->notify($api);
+            };
+            API::callForkDefer($init());
+            return $returned;
+        }
+        
+        /**
+         * @param null $api
+         * @return \Generator|bool
+         */
+        public function notify($api = null)
+        {
+            
+            if (!is_null($this->notified))
+                return $this->notified;
+            
+            return $this->notified = yield $this->handle($api, $this->observers, $this->default_driver);
+            
+        }
+        
+        protected function handle($api, array $observers, string $driver = null)
+        {
+            //check if the current array of observers have a predefined driver
+            if (isset($observers['_'])) {
+                // [
+                //   '_' => 'sync', //predefined driver
+                //   'sync' => [array of observers or multi dimensional array of observers],
+                //
+                // ]
+                $method = $observers['_'];//get predefined driver;
+//            $observers = $observers[$method];
+                if (isset($observers[$method])) {//check if driver has observers attached to it
+                    $observers = (array)$observers[$method];// cast the observers
+                    // to array in case we just have one observer
+                } else {//if we cant find the observers attached
+                    // to the predefined driver, clear out observer array
+//                $observers = [];//will consider deleting this
+                    // line until i find a better way to handle the edge case
+                    
+                    return true;//nothing more to do
+                }
+            } elseif (!is_null($driver)) {//if $driver was not null
+                // we use it
+                $method = $driver;
+            } else {
+                //fallback driver
+                $method = $this->default_driver;
+            }
+            //we call the driver method
+            $method .= "Execution";
+            return yield $this->$method($api, $observers);
+            
+        }
+        
         /**
          * @param array $data
          * @param array $optional
@@ -402,13 +456,13 @@
             
             return $new_objects;
         }
-    
+        
         /**
          * @param array $objects
          * @param string $property_name
          * @return array
          */
-        protected function makePrettyDefaultObjects(array $objects,$property_name="default")
+        protected function makePrettyDefaultObjects(array $objects, $property_name = "default")
         {
             $new_objects = [];
             
@@ -418,7 +472,7 @@
                     if (is_array($object) && isset($object['_'])) {
                         //get the default entity class
                         //throws error
-                        $new_objects[] = $this->getDefaultEntity($object,['_property_' => $property_name]);
+                        $new_objects[] = $this->getDefaultEntity($object, ['_property_' => $property_name]);
                     } else {
                         //object is just a type we are interested in :D
                         $new_objects[] = $object;
@@ -430,110 +484,7 @@
             
             return $new_objects;
         }
-    
-    
-    
-        public function notifyNow($api = null)
-        {
-            $returned = null;
-            $init = function () use (&$returned, $api) {
-                $returned = yield $this->notify($api);
-            };
-            API::call($init());
-    
-//            echo "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n";
-//            echo "notify now was called: $returned";
-//            echo "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n";
-            
-            
-            return $returned;
-        }
-    
-        /**
-         * @param null $api
-         * @return \Generator|bool
-         */
-        public function notify($api = null)
-        {
         
-            if (!is_null($this->notified))
-                return $this->notified;
-        
-            return $this->notified =  yield $this->handle($api, $this->observers, $this->default_driver);
-        
-        }
-    
-        protected function handle($api, array $observers, string $driver = null)
-        {
-            //check if the current array of observers have a predefined driver
-            if (isset($observers['_'])) {
-                // [
-                //   '_' => 'sync', //predefined driver
-                //   'sync' => [array of observers or multi dimensional array of observers],
-                //
-                // ]
-                $method = $observers['_'];//get predefined driver;
-//            $observers = $observers[$method];
-                if (isset($observers[$method])) {//check if driver has observers attached to it
-                    $observers = (array)$observers[$method];// cast the observers
-                    // to array in case we just have one observer
-                } else {//if we cant find the observers attached
-                    // to the predefined driver, clear out observer array
-//                $observers = [];//will consider deleting this
-                    // line until i find a better way to handle the edge case
-                
-                    return true;//nothing more to do
-                }
-            } elseif (!is_null($driver)) {//if $driver was not null
-                // we use it
-                $method = $driver;
-            } else {
-                //fallback driver
-                $method = $this->default_driver;
-            }
-            //we call the driver method
-            $method .= "Execution";
-            return yield $this->$method($api, $observers);
-        
-        }
-    
-        /**
-         * @param $api
-         * @param array $observers
-         * @return bool|mixed
-         * @throws InvalidObserverType
-         */
-        protected function syncExecution($api, array $observers)
-        {
-        
-            $value = true;
-            foreach ($observers as $observer) {
-                if (is_string($observer)
-                    && class_exists($observer)
-                    && is_subclass_of($observer, Observer::class)) {
-                
-                    /** @var Observer $observer */
-                    $observer = new $observer($api, $this);
-                    $value = yield  $observer->handle();
-                } elseif ($observer instanceof Closure) {
-                    $value = yield $observer($api, $this);
-                } elseif (is_array($observer)) {
-                    $value = yield  $this->handle($api, $observer, "sync");
-                } elseif (is_object($observer)
-                    && method_exists($observer, 'handle')) {
-                    $value = yield $observer->handle($api, $observer);
-                } else {
-                    throw new InvalidObserverType(" Invalid observer type given");
-                }
-                if ($value === false) {
-                    return $value;
-                }
-            }
-            return (!is_null($value)) ? $value : true;
-        }
-    
-    
-    
         /**
          * Try to mention the user
          *
@@ -587,5 +538,40 @@
             );
         }
         
-       
+        /**
+         * @param $api
+         * @param array $observers
+         * @return bool|mixed
+         * @throws InvalidObserverType
+         */
+        protected function syncExecution($api, array $observers)
+        {
+            
+            $value = true;
+            foreach ($observers as $observer) {
+                if (is_string($observer)
+                    && class_exists($observer)
+                    && is_subclass_of($observer, Observer::class)) {
+                    
+                    /** @var Observer $observer */
+                    $observer = new $observer($api, $this);
+                    $value = yield  $observer->handle();
+                } elseif ($observer instanceof Closure) {
+                    $value = yield $observer($api, $this);
+                } elseif (is_array($observer)) {
+                    $value = yield  $this->handle($api, $observer, "sync");
+                } elseif (is_object($observer)
+                    && method_exists($observer, 'handle')) {
+                    $value = yield $observer->handle($api, $observer);
+                } else {
+                    throw new InvalidObserverType(" Invalid observer type given");
+                }
+                if ($value === false) {
+                    return $value;
+                }
+            }
+            return (!is_null($value)) ? $value : true;
+        }
+        
+        
     }

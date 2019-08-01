@@ -3,3 +3,6 @@ vendor/
 composer.lock
 src/test
 src/test_4-0
+test_4-0-1/MadelineProto.log
+test_4-0-1/user.madeline
+test_4-0-1/user.madeline.lock
