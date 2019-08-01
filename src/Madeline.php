@@ -40,27 +40,9 @@ trait Madeline
     public function processUpdate(array $data)
     {
         $this->initialize();
-/*//        echo "\n".__DIR__."\n";
-        $sub = '\\Updates\\'. ucfirst($data['_']);
-        $file_name =ENTITY_DIR.$sub.".php";
-        file_exists($file_name) && include_once  $file_name;
-
-        $update_class = ENTITY_NAMESPACE.$sub;
-        if (class_exists($update_class)) {
-            $update = new $update_class($data,"");
-        }else{
-            $update = new Update($data);
-        }
-
-*/
-
    isset($data['update'])||($data =['_'=>'update','update'=>$data]);
      $e = new DefaultEntity($data);
      return yield $e->getUpdate()->notify($this);
-     
-//     die();
-
-//        print_r($GLOBALS['__composer_autoload_files']);
     }
 
 
