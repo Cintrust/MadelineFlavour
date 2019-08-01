@@ -19,7 +19,6 @@ use Cintrust\MadelineProto\Entities\MessageMedia\MessageMediaUnsupported;
 use Cintrust\MadelineProto\Entities\Peers\PeerChannel;
 use Cintrust\MadelineProto\Entities\Peers\PeerUser;
 use Cintrust\MadelineProto\Observers\Messages\MessageRepeaterObserver;
-use Cintrust\MadelineProto\Observers\Messages\TwitterBot;
 
 /**
 *Class Message
@@ -47,7 +46,6 @@ class Message extends DefaultMessage
 
 protected $observers =[
     MessageRepeaterObserver::class,
-    TwitterBot::class,
 ];
 
 protected function subEntities()

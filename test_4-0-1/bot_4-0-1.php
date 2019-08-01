@@ -47,23 +47,8 @@
 
 
             
-            $value = yield $this->processUpdate($update);
-            $this->logger($value);
-            
-
-//            try {
-//                if (isset($update['message']['media']) && ($update['message']['media']['_'] == 'messageMediaPhoto' || $update['message']['media']['_'] == 'messageMediaDocument')) {
-//                    $info = yield $this->get_download_info($update['message']['media']);
-//
-//                    echo"hjh j hater";
-//                    print_r($info);
-//                    $time = microtime(true);
-//                    $file = yield $this->download_to_file($update, ".".DIRECTORY_SEPARATOR."$time{$info['ext']}");
-//                    yield $this->messages->sendMessage(['peer' => $update, 'message' => 'Downloaded to '.$file.' in '.(microtime(true) - $time).' seconds', 'reply_to_msg_id' => $update['message']['id']]);
-//                }
-//            } catch (RPCErrorException $e) {
-//                yield $this->messages->sendMessage(['peer' => '@de_senior', 'message' => $e]);
-//            }
+             yield $this->processUpdate($update);
+             
             return;
             
         }
@@ -74,7 +59,7 @@
     
     $settings = ['logger' => [
         'logger_level' => 5,
-        'logger' => 2,
+        'logger' => 3,
     ]];
     
     $time = microtime(true);
@@ -83,9 +68,8 @@
     
     
    
-//    register_shutdown_function('milk',$MadelineProto,$time);
-    
-    
+
+
 //    while(1) {
         try {
             $MadelineProto->async(true);
