@@ -3,6 +3,7 @@
     "description": "An event driven telegram sdk built ontop madeline proto with php",
     "type": "project",
     "require": {
+
     "danog/madelineproto": "^4",
         "amphp/dns": "dev-master#aa1892bd as 0.9",
         "longman/telegram-bot": "*",
@@ -27,4 +28,5 @@
         "Cintrust\\MadelineProto\\": "src/"
     }
 }
+
 }

@@ -1,11 +1,16 @@
 <?php
-    
-    
+
+
     namespace Cintrust\MadelineProto\Observers\Messages;
 
+    use Cintrust\MadelineProto\Loop\MyLoop;
+    use danog\MadelineProto\Loop\Generic\GenericLoop;
     use danog\MadelineProto\Shutdown;
     use Cintrust\MadelineProto\Observers\Observer;
-    
+    namespace Cintrust\MadelineProto\Observers\Messages;
+
+
+
     /**
      * Class MessageRepeaterObserver
      * @package Cintrust\MadelineProto\Observers\Messages
@@ -14,8 +19,7 @@
      */
     class MessageRepeaterObserver extends Observer
     {
-        
-        
+
         /**
          * @return bool
          */
@@ -26,13 +30,37 @@
                 &&(($this->Entity->getDate()+1800)>=time())
             ) {
               $peer=  $this->Entity->getFromId();
-                
+
                   if($peer!==654630358){
 
                       return true;
                   }
-    
+
                 $message= $this->Entity->getMessage();
+//                $re=   MyLoop::getMe();
+//                if($message=="Wow"){
+//                    ($r=new MyLoop($this->API,10))->start();
+//                    $r->resume();
+//
+//                    unset($r);
+//                }
+//                  if($message=="start"){
+//                      if (!$re->start()) {
+//                          $re->resume();
+//                      }
+//                  }elseif ($message=="off"){
+//                      MyLoop::remove();
+//                      unset($re);
+////                      $re->waitSignal($re->pause(10));
+//                  }elseif ($message=="pause"){
+////                      MyLoop::remove();
+////                      unset($re);
+//                      $re->waitSignal($re->pause(10));
+//                  }elseif ($message=="o"){
+//
+//                      $re->signal(2);
+//                  }
+
                 if($message==="!off"){
                     yield $this->API->messages->sendMessage(
                           [
@@ -43,11 +71,12 @@
                     Shutdown::addCallback(static function () {
                         // This function will run on shutdown
                         exit();
-    
+
+
                     },'restarter');
                     die();
                 }elseif ($message==="!restart"){
-    
+
                     yield $this->API->messages->sendMessage(
                         [
                             'peer' =>"@de_senior" ,
@@ -64,8 +93,7 @@
                             ]
 
                     );
-                    
-                    
+
                     if($photos =$media->getPhoto()){
                         yield $this->API->messages->sendMessage(
                             [
@@ -74,9 +102,7 @@
                             ]
 
                         );
-    
-    
-    
+
                     }elseif($document =$media->getDocument()){
                         yield $this->API->messages->sendMessage(
                             [
@@ -93,10 +119,11 @@
                         ['peer' => '@de_senior', 'message' => $message?:"we got nothing"]
                     );
                 }
-                
-                
+
+
+
             }
-            
+
             return true;
         }
     }

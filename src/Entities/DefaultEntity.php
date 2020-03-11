@@ -11,6 +11,7 @@ namespace Cintrust\MadelineProto\Entities;
 
 use Cintrust\MadelineProto\Entities\Updates\UpdateChannel;
 use Cintrust\MadelineProto\Entities\Updates\UpdateChannelMessageViews;
+use Cintrust\MadelineProto\Entities\Updates\UpdateChatUserTyping;
 use Cintrust\MadelineProto\Entities\Updates\UpdateDeleteChannelMessages;
 use Cintrust\MadelineProto\Entities\Updates\UpdateDeleteMessages;
 use Cintrust\MadelineProto\Entities\Updates\UpdateEditChannelMessage;
@@ -26,6 +27,8 @@ use Cintrust\MadelineProto\Entities\Updates\UpdateReadFeaturedStickers;
 use Cintrust\MadelineProto\Entities\Updates\UpdateReadHistoryInbox;
 use Cintrust\MadelineProto\Entities\Updates\UpdateReadHistoryOutbox;
 use Cintrust\MadelineProto\Entities\Updates\UpdateReadMessagesContents;
+use Cintrust\MadelineProto\Entities\Updates\UpdateServiceNotification;
+
 use Cintrust\MadelineProto\Entities\Updates\UpdateUserName;
 use Cintrust\MadelineProto\Entities\Updates\UpdateUserPhoto;
 use Cintrust\MadelineProto\Entities\Updates\UpdateUserStatus;
@@ -52,6 +55,7 @@ class DefaultEntity extends Entity
       'update'  =>[
           'updateChannel'=>UpdateChannel::class,
           'UpdateChannelMessageViews'=>UpdateChannelMessageViews::class,
+          'UpdateChatUserTyping'=>UpdateChatUserTyping::class,
           'updateDeleteChannelMessages'=>UpdateDeleteChannelMessages::class,
           'updateDeleteMessages'=>UpdateDeleteMessages::class,
           'updateEditChannelMessage'=>UpdateEditChannelMessage::class,
@@ -67,6 +71,7 @@ class DefaultEntity extends Entity
           'updateReadHistoryInbox'=>UpdateReadHistoryInbox::class,
           'updateReadHistoryOutbox'=>UpdateReadHistoryOutbox::class,
           'updateReadMessagesContents'=>UpdateReadMessagesContents::class,
+          'UpdateServiceNotification'=>UpdateServiceNotification::class,
           'updateUserName'=>UpdateUserName::class,
           'updateUserPhoto'=>UpdateUserPhoto::class,
           'updateUserStatus'=>UpdateUserStatus::class,
@@ -77,3 +82,4 @@ class DefaultEntity extends Entity
 }
 
 }
+

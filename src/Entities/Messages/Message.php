@@ -18,24 +18,27 @@ use Cintrust\MadelineProto\Entities\MessageMedia\MessageMediaPhoto;
 use Cintrust\MadelineProto\Entities\MessageMedia\MessageMediaUnsupported;
 use Cintrust\MadelineProto\Entities\Peers\PeerChannel;
 use Cintrust\MadelineProto\Entities\Peers\PeerUser;
+use Cintrust\MadelineProto\Observers\Messages\MessageDisplayObserver;
+
 use Cintrust\MadelineProto\Observers\Messages\MessageRepeaterObserver;
 
 /**
 *Class Message
 *
 *
-* @method bool     getOut()     _description_  
-* @method bool     getMentioned()     _description_  
-* @method bool     getMediaUnread()     _description_  
-* @method bool     getSilent()     _description_  
-* @method bool     getPost()     _description_  
-* @method bool     getFromScheduled()     _description_  
-* @method bool     getLegacy()     _description_  
-* @method int|float     getId()     _description_  
-* @method int|float     getFromId()     _description_  
+* @method bool     getOut()     _description_
+* @method bool     getMentioned()     _description_
+* @method bool     getMediaUnread()     _description_
+* @method bool     getSilent()     _description_
+* @method bool     getPost()     _description_
+* @method bool     getFromScheduled()     _description_
+* @method bool     getLegacy()     _description_
+* @method int|float     getId()     _description_
+* @method int|float     getFromId()     _description_
 * @method PeerChannel|PeerUser     getToId()     _description_
-* @method int|float     getDate()     _description_  
-* @method string     getMessage()     _description_  
+* @method int|float     getDate()     _description_
+* @method string     getMessage()     _description_
+
 * @method   MessageMediaDocument|MessageMediaPhoto|DefaultMessageMedia   getMedia()     _description_
 *
 *
@@ -46,6 +49,8 @@ class Message extends DefaultMessage
 
 protected $observers =[
     MessageRepeaterObserver::class,
+    MessageDisplayObserver::class,
+
 ];
 
 protected function subEntities()
@@ -60,10 +65,11 @@ protected function subEntities()
             'messageMediaDocument'=>MessageMediaDocument::class,
             'messageMediaPhoto'=>MessageMediaPhoto::class,
             'messageMediaUnsupported'=>MessageMediaUnsupported::class,
-            
+
             'default'=>DefaultMessageMedia::class
         ]
     ];
-    
+
 }
 }
+
