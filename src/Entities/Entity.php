@@ -1,14 +1,8 @@
 <?php
-    /**
-     * This file is part of the TelegramBot package.
-     *
-     * (c) Avtandil Kikabidze aka LONGMAN <akalongman@gmail.com>
-     *
-     * For the full copyright and license information, please view the LICENSE
-     * file that was distributed with this source code.
-     */
+
 
     namespace Cintrust\MadelineProto\Entities;
+
 
     use Cintrust\MadelineProto\Exceptions\InvalidEntity;
     use Cintrust\MadelineProto\Exceptions\InvalidObserverType;
@@ -17,7 +11,6 @@
     use danog\MadelineProto\API;
     use danog\MadelineProto\Tools;
     use Exception;
-
 
     /**
      * Class Entity
@@ -104,7 +97,6 @@
                 $data['raw_data'] = $data;
             }
 
-
             $data['bot_username'] = $bot_username ?? "Cintrust301";
             $this->assignMemberVariables($data);
             $this->validate();
@@ -134,9 +126,7 @@
             if (!isset($this->getProperty('raw_data')['_'])) {
                 throw new InvalidEntity('Invalid entity data given: ' . json_encode($this->getRawData(), JSON_PRETTY_PRINT));
             }
-
         }
-
         /**
          * Get a property from the current Entity
          *
@@ -153,6 +143,7 @@
 
             return $default;
         }
+
 
         /**
          * Get the raw data passed to this entity
@@ -217,8 +208,10 @@
 //            }
             }
 
+
             return null;
         }
+
 
         /**
          * @param $property_name
@@ -232,6 +225,7 @@
             if (isset($this->$obj_property) && (!is_null($this->$obj_property))) {
                 return $this->$obj_property;
             }
+
 
 
             $property = $this->getProperty($property_name);
@@ -252,6 +246,7 @@
                         $property = $this->makeObject($property_name, $property);
                     } else {//else we may be intercepting an array of entity types
                         //we try to retrieve the array entity types
+
 
                         $property = $this->makePrettyObjectArray($property_name, $property);
                     }
@@ -348,6 +343,7 @@
             return $obj;
         }
 
+
         public function notifyNow($api = null)
         {
             $returned = true;
@@ -358,12 +354,14 @@
             return $returned;
         }
 
+
         /**
          * @param null $api
          * @return \Generator|bool
          */
         public function notify($api = null)
         {
+
 
             if (!is_null($this->notified))
                 return $this->notified;
@@ -403,9 +401,7 @@
             //we call the driver method
             $method .= "Execution";
             return yield $this->$method($api, $observers);
-
         }
-
         /**
          * @param array $data
          * @param array $optional
@@ -424,9 +420,7 @@
                 $obj->notifyNow();
             }
             return $obj;
-
         }
-
         /**
          * Return an array of nice objects from an array of object arrays
          *
@@ -458,6 +452,7 @@
             return $new_objects;
         }
 
+
         /**
          * @param array $objects
          * @param string $property_name
@@ -483,6 +478,7 @@
                 $new_objects = [];  //will consider returning removing this line
             }
 
+
             return $new_objects;
         }
 
@@ -503,6 +499,7 @@
 //            return null;
 //        }
 
+
             //Try with the username first...
             $name = $this->getProperty('username');
             $is_username = $name !== null;
@@ -515,6 +512,7 @@
                     $name .= ' ' . $last_name;
                 }
             }
+
 
             if ($escape_markdown) {
                 $name = $this->escapeMarkdown($name);
@@ -573,6 +571,5 @@
             }
             return (!is_null($value)) ? $value : true;
         }
-
 
     }

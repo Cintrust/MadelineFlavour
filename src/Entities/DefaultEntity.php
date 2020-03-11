@@ -28,6 +28,7 @@ use Cintrust\MadelineProto\Entities\Updates\UpdateReadHistoryInbox;
 use Cintrust\MadelineProto\Entities\Updates\UpdateReadHistoryOutbox;
 use Cintrust\MadelineProto\Entities\Updates\UpdateReadMessagesContents;
 use Cintrust\MadelineProto\Entities\Updates\UpdateServiceNotification;
+
 use Cintrust\MadelineProto\Entities\Updates\UpdateUserName;
 use Cintrust\MadelineProto\Entities\Updates\UpdateUserPhoto;
 use Cintrust\MadelineProto\Entities\Updates\UpdateUserStatus;
@@ -81,3 +82,4 @@ class DefaultEntity extends Entity
 }
 
 }
+

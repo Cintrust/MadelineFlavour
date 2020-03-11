@@ -16,23 +16,21 @@ class ProcessNewMessageType extends ProcessNewType
 {
 
 
-protected $type_dir =ENTITY_DIR.DIRECTORY_SEPARATOR.'Messages'.DIRECTORY_SEPARATOR;
+    protected $type_dir = ENTITY_DIR . DIRECTORY_SEPARATOR . 'Messages' . DIRECTORY_SEPARATOR;
 
-protected $namespace ="Cintrust\MadelineProto\Entities\Messages";
+    protected $namespace = "Cintrust\MadelineProto\Entities\Messages";
 //   Cintrust\MadelineProto\Entities\DefaultMessage
-    protected $uses =[DefaultMessage::class];
-
+    protected $uses = [DefaultMessage::class];
 
     /**
      * @return bool|mixed
      */
     public function handle()
     {
-        $payload =[
-            '#extends#'=>"extends DefaultMessage"
+        $payload = [
+            '#extends#' => "extends DefaultMessage"
         ];
         return $this->render($payload);
-
     }
 
     /**

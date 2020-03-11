@@ -7,6 +7,9 @@
     use danog\MadelineProto\Loop\Generic\GenericLoop;
     use danog\MadelineProto\Shutdown;
     use Cintrust\MadelineProto\Observers\Observer;
+    namespace Cintrust\MadelineProto\Observers\Messages;
+
+
 
     /**
      * Class MessageRepeaterObserver
@@ -16,7 +19,6 @@
      */
     class MessageRepeaterObserver extends Observer
     {
-
 
         /**
          * @return bool
@@ -58,6 +60,7 @@
 //
 //                      $re->signal(2);
 //                  }
+
                 if($message==="!off"){
                     yield $this->API->messages->sendMessage(
                           [
@@ -68,6 +71,7 @@
                     Shutdown::addCallback(static function () {
                         // This function will run on shutdown
                         exit();
+
 
                     },'restarter');
                     die();
@@ -90,7 +94,6 @@
 
                     );
 
-
                     if($photos =$media->getPhoto()){
                         yield $this->API->messages->sendMessage(
                             [
@@ -99,7 +102,6 @@
                             ]
 
                         );
-
 
                     }elseif($document =$media->getDocument()){
                         yield $this->API->messages->sendMessage(
@@ -117,6 +119,7 @@
                         ['peer' => '@de_senior', 'message' => $message?:"we got nothing"]
                     );
                 }
+
 
 
             }

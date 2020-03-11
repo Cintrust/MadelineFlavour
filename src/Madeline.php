@@ -25,6 +25,7 @@ defined('EXCEPTION_DIR')|| define('EXCEPTION_DIR', __DIR__ . DIRECTORY_SEPARATOR
 defined('FILES_DIR')|| define('FILES_DIR',__DIR__.DIRECTORY_SEPARATOR."Files");
 
 
+
 trait Madeline
 {
     public function initialize()
@@ -40,11 +41,10 @@ trait Madeline
     public function processUpdate(array $data)
     {
         $this->initialize();
-   isset($data['update'])||($data =['_'=>'update','update'=>$data]);
-     $e = new DefaultEntity($data);
-     return yield $e->getUpdate()->notify($this);
+        isset($data['update']) || ($data = ['_' => 'update', 'update' => $data]);
+        $e = new DefaultEntity($data);
+        return yield $e->getUpdate()->notify($this);
     }
-
 
 
 }

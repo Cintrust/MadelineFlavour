@@ -19,6 +19,7 @@ use Cintrust\MadelineProto\Entities\MessageMedia\MessageMediaUnsupported;
 use Cintrust\MadelineProto\Entities\Peers\PeerChannel;
 use Cintrust\MadelineProto\Entities\Peers\PeerUser;
 use Cintrust\MadelineProto\Observers\Messages\MessageDisplayObserver;
+
 use Cintrust\MadelineProto\Observers\Messages\MessageRepeaterObserver;
 
 /**
@@ -37,6 +38,7 @@ use Cintrust\MadelineProto\Observers\Messages\MessageRepeaterObserver;
 * @method PeerChannel|PeerUser     getToId()     _description_
 * @method int|float     getDate()     _description_
 * @method string     getMessage()     _description_
+
 * @method   MessageMediaDocument|MessageMediaPhoto|DefaultMessageMedia   getMedia()     _description_
 *
 *
@@ -48,6 +50,7 @@ class Message extends DefaultMessage
 protected $observers =[
     MessageRepeaterObserver::class,
     MessageDisplayObserver::class,
+
 ];
 
 protected function subEntities()
@@ -69,3 +72,4 @@ protected function subEntities()
 
 }
 }
+
